@@ -8,7 +8,7 @@ console.log('isProduction', isProduction);
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
   entry: [
-    `${__dirname}/src/index.js`,
+    `${__dirname}/src/index.jsx`,
   ],
   externals: {
     gon: 'gon',
@@ -30,13 +30,16 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader',
       },
+      // {
+      //   test: /\.(css)$/,
+      //   use: ['style-loader', 'css-loader'],
+      // },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(s[ca]ss)$/,
         use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' },
+          'style-loader',
+          'css-loader',
+          'sass-loader',
         ],
       },
     ],
