@@ -1,9 +1,9 @@
 import React from 'react';
 
 const Channels = ({ gon: { channels } }) => (
-  <lu>
+  <ul>
     {channels.map(({ name, id }) => <li key={id}>{name}</li>)}
-  </lu>
+  </ul>
 );
 
 export default Channels;
