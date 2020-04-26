@@ -1,6 +1,7 @@
 import axios from 'axios';
 import io from 'socket.io-client';
 import routes from '../routes';
+// import { updateChannel } from '../features/channels/channelsSlice';
 
 export default {
   channels: {
@@ -12,21 +13,26 @@ export default {
       const response = await axios.get(routes.channelsPath());
       return response;
     },
+    async updateChannel(data) {
+      const { params: { id } } = data;
+      const response = await axios.patch(routes.channelPath(id), data);
+      return response;
+    },
     async deleteChannel(data) {
-      const response = await axios.delete(routes.channelPath(data));
+      const { params: { id } } = data;
+      const response = await axios.delete(routes.channelPath(id), data);
       return response;
     },
   },
   messages: {
     async createMessage(data) {
-      const { params: { channelId } } = data;
-      // const response = await 
-      const response = await axios.post(routes.channelMessagesPath(channelId), data);
+      const { params: { id } } = data;
+      const response = await axios.post(routes.channelMessagesPath(id), data);
       return response;
     },
     async fetchMessages(data) {
-      const { params: { channelId } } = data;
-      const respose = await axios.get(routes.channelMessagesPath(channelId));
+      const { params: { id } } = data;
+      const respose = await axios.get(routes.channelMessagesPath(id));
       return respose;
     },
   },

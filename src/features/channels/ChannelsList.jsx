@@ -1,18 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+
 import { selectAllChannels } from './channelsSlice';
-import ChannlelDisplay from './ChannelDisplay';
+import ChannelListItem from './ChannelListItem';
+import ChannelListAddItem from './ChannelListAddItem';
+import DialogForm from '../../components/DialogForm';
 
 const ChannelsList = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogData, setDialogData] = useState({ id: '', initialText: '', action: '' });
+
   const channels = useSelector(selectAllChannels);
+  const currentChannel = useSelector((state) => state.channels.currentChannelId);
+
   return (
-    <ul className="list-group">
-      {channels.map(({ id, name, removable }) => (
-        <li key={id} className="list-group-item d-flex">
-          <ChannlelDisplay name={name} removable={removable} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <List>
+        {channels.map(({ id, name, removable }) => (
+          <ListItem button key={id} selected={Number(currentChannel) === id}>
+            <ChannelListItem
+              id={id}
+              name={name}
+              removable={removable}
+              setOpenDialog={setOpenDialog}
+              setDialogData={setDialogData}
+            />
+          </ListItem>
+        ))}
+        <Divider />
+        <ChannelListAddItem
+          setOpenDialog={setOpenDialog}
+          setDialogData={setDialogData}
+        />
+      </List>
+      <DialogForm
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        dialogData={dialogData}
+      />
+    </>
   );
 };
 

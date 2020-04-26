@@ -2,8 +2,8 @@ import { schema } from 'normalizr';
 
 const channelsEntity = new schema.Entity('channels');
 
-const listChannels = [{ attributes: channelsEntity }];
+const messageEntity = new schema.Entity('messages');
 
-// [{ attributes: attributesEntity }];
+export const listChannels = [{ attributes: channelsEntity }];
 
-export default listChannels;
+export const listMessages = [{ attributes: messageEntity }];
