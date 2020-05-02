@@ -20,7 +20,6 @@ export default {
   messages: {
     async createMessage(data) {
       const { params: { channelId } } = data;
-      // const response = await 
       const response = await axios.post(routes.channelMessagesPath(channelId), data);
       return response;
     },

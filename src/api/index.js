@@ -1,7 +1,5 @@
 import axios from 'axios';
-import io from 'socket.io-client';
 import routes from '../routes';
-// import { updateChannel } from '../features/channels/channelsSlice';
 
 export default {
   channels: {

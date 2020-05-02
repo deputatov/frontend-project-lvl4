@@ -1,41 +1,29 @@
-import React from 'react';
-import { Formik, Form } from 'formik';
-import TextField from '@material-ui/core/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import faker from 'faker';
-import Cookies from 'js-cookie';
-import { createMessage } from './messagesSlice';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 
-const getName = () => {
-  const username = Cookies.get('name');
-  if (!username) {
-    const newName = faker.fake('{{name.firstName}}.{{name.lastName}}');
-    Cookies.set('name', newName);
-    return newName;
-  }
-  return username;
-};
+import { Formik, Form } from 'formik';
+
+import TextField from '@material-ui/core/TextField';
+
+import axios from 'axios';
+
+import routes from '../../routes';
+
+import UsernameContext from '../../ctx';
 
 const MessageInput = () => {
-  const dispatch = useDispatch();
-  const id = useSelector((state) => state.channels.currentChannelId);
-  const nickname = getName();
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const nickname = useContext(UsernameContext);
 
   const onSubmit = ({ text }, { resetForm }) => {
-    const data = {
-      params: {
-        channelId: id,
-      },
-      data: {
-        attributes: {
-          text,
-          nickname,
-        },
-      },
-    };
-    dispatch(createMessage(data));
-    resetForm({ text: '' });
+    const data = { data: { attributes: { text, nickname } } };
+    const url = routes.channelMessagesPath(currentChannelId);
+    return axios
+      .post(url, data)
+      .then(() => resetForm({ text: '' }))
+      .catch((err) => { throw err; });
   };
+
   return (
     <Formik initialValues={{ text: '' }} onSubmit={onSubmit}>
       {(props) => {
@@ -64,11 +52,3 @@ const MessageInput = () => {
 };
 
 export default MessageInput;
-
-// {() => (
-//   <Form>
-//     <TextField label="Text message" id="text" name="text" type="text" fullWidth />
-//     {/* <Field name="text" type="text" />
-//     <button type="submit" disabled={isSubmitting}>Submit</button> */}
-//   </Form>
-// )}

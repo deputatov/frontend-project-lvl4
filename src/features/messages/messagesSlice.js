@@ -4,29 +4,17 @@ import {
   createEntityAdapter,
   // createSelector,
 } from '@reduxjs/toolkit';
-import io from 'socket.io-client';
+import gon from 'gon';
 import { normalize } from 'normalizr';
 import { listMessages } from '../../schemas';
+// import routes from '../../routes';
+import getNormalizedData from '../../lib/getNormalizedData';
 import api from '../../services';
 
 const messagesAdaptor = createEntityAdapter();
 
-const socket = io('http://localhost:5000', { transports: ['websocket', 'polling'] });
-
-export const createMessage = createAsyncThunk(
-  'messages/createMessage',
-  (requestData) => {
-    api.messages.createMessage(requestData);
-    socket.on('newMessage', (newMessage) => {
-      return newMessage;
-    });
-    // const { data: { data: { attributes } } } = result;
-    // return attributes;
-  },
-);
-
-export const fetchMessage = createAsyncThunk(
-  'messages/fetchMessage',
+export const fetchMessages = createAsyncThunk(
+  'messages/fetchMessages',
   async (requestData) => {
     const response = await api.messages.fetchMessages(requestData);
     const { data: { data } } = response;
@@ -35,16 +23,22 @@ export const fetchMessage = createAsyncThunk(
   },
 );
 
-const slice = createSlice({
+const getInitialData = (data) => {
+  const { messages } = data;
+  const result = getNormalizedData(messages);
+  return { ...result };
+};
+
+const messagesSlice = createSlice({
   name: 'messages',
-  initialState: messagesAdaptor.getInitialState(),
-  reducers: {},
-  extraReducers: {
-    [createMessage.fulfilled]: (state, { payload }) => {
-      console.dir(payload);
-      messagesAdaptor.addOne(state, payload);
+  initialState: messagesAdaptor.getInitialState({ ...getInitialData(gon) }),
+  reducers: {
+    createMessage(state, { payload: { data: { attributes } } }) {
+      messagesAdaptor.addOne(state, attributes);
     },
-    [fetchMessage.fulfilled]: (state, { payload: { messages } }) => {
+  },
+  extraReducers: {
+    [fetchMessages.fulfilled]: (state, { payload: { messages } }) => {
       messagesAdaptor.upsertMany(state, messages);
     },
   },
@@ -58,6 +52,8 @@ export const {
   selectTotal: selectTotalMessages,
 } = messagesAdaptor.getSelectors((state) => state.messages);
 
-const { reducer } = slice;
+const { actions, reducer } = messagesSlice;
+
+export const { createMessage } = actions;
 
 export default reducer;

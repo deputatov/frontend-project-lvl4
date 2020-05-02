@@ -1,4 +1,7 @@
 import React from 'react';
+
+import gon from 'gon';
+
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -21,7 +24,6 @@ const useStyles = makeStyles(() => ({
 const MessagesList = () => {
   const classes = useStyles();
   const messages = useSelector(selectAllMessages);
-  console.dir(messages);
   return (
     <div>
       {messages.map(({ id, text, nickname }) => (

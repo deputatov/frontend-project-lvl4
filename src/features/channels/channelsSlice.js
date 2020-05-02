@@ -6,7 +6,9 @@ import {
 } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import { head, keys } from 'lodash';
+import gon from 'gon';
 import { listChannels } from '../../schemas';
+import getNormalizedData from '../../lib/getNormalizedData';
 import api from '../../api';
 
 const channelsAdaptor = createEntityAdapter();
@@ -51,9 +53,15 @@ export const deleteChannel = createAsyncThunk(
   },
 );
 
+const getInitialData = (data) => {
+  const { currentChannelId, channels } = data;
+  const result = getNormalizedData(channels);
+  return { ...result, currentChannelId };
+};
+
 const slice = createSlice({
   name: 'channels',
-  initialState: channelsAdaptor.getInitialState(),
+  initialState: channelsAdaptor.getInitialState({ ...getInitialData(gon) }),
   reducers: {},
   extraReducers: {
     [createChannel.fulfilled]: (state, { payload }) => {
