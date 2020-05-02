@@ -3,7 +3,6 @@ import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter,
-  createSelector,
 } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
 import { head, keys } from 'lodash';
@@ -64,8 +63,8 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdaptor.getInitialState({ ...getInitialData(gon) }),
   reducers: {
-    setCurrentChannelId(state, { payload: { channelId } }) {
-      state.currentChannelId = channelId;
+    setCurrentChannelId(state, { payload: { id } }) {
+      state.currentChannelId = id;
     },
   },
   extraReducers: {
