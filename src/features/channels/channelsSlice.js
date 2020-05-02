@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   createSlice,
   createAsyncThunk,
@@ -59,10 +60,14 @@ const getInitialData = (data) => {
   return { ...result, currentChannelId };
 };
 
-const slice = createSlice({
+const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdaptor.getInitialState({ ...getInitialData(gon) }),
-  reducers: {},
+  reducers: {
+    setCurrentChannelId(state, { payload: { channelId } }) {
+      state.currentChannelId = channelId;
+    },
+  },
   extraReducers: {
     [createChannel.fulfilled]: (state, { payload }) => {
       channelsAdaptor.addOne(state, payload);
@@ -99,8 +104,8 @@ export const selectMessagesByChannelId = (channelId) => createSelector(
     .filter((message) => channel.messages.includes(message)),
 );
 
-const { reducer } = slice;
+const { reducer } = channelsSlice;
 
-export const { setCurrentChannelId } = slice.actions;
+export const { setCurrentChannelId } = channelsSlice.actions;
 
 export default reducer;
