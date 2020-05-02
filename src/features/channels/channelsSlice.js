@@ -93,19 +93,8 @@ export const {
   selectTotal: selectTotalChannels,
 } = channelsAdaptor.getSelectors((state) => state.channels);
 
-export const selectMessagesByChannelId = (channelId) => createSelector(
-  [
-    (state) => selectChannelById(state, channelId),
-    (state) => state.messages.ids.map((id) => state.messages.entities[id]),
-  ],
-  (channel, messages) => Object
-    .keys(messages)
-    .map((c) => messages[c])
-    .filter((message) => channel.messages.includes(message)),
-);
+const { reducer, actions } = channelsSlice;
 
-const { reducer } = channelsSlice;
-
-export const { setCurrentChannelId } = channelsSlice.actions;
+export const { setCurrentChannelId } = actions;
 
 export default reducer;
