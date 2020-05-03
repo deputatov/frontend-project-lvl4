@@ -1,14 +1,12 @@
 import React from 'react';
 
-import gon from 'gon';
-
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 
-import { selectAllMessages } from './messagesSlice';
+import { selectMessagesByChannelId } from './messagesSlice';
 
 const useStyles = makeStyles(() => ({
   flex: {
@@ -23,7 +21,9 @@ const useStyles = makeStyles(() => ({
 
 const MessagesList = () => {
   const classes = useStyles();
-  const messages = useSelector(selectAllMessages);
+  const channelId = useSelector((state) => state.channels.currentChannelId);
+  const messages = useSelector(selectMessagesByChannelId(channelId));
+
   return (
     <div>
       {messages.map(({ id, text, nickname }) => (

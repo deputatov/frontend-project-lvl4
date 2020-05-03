@@ -1,8 +1,10 @@
+/* eslint arrow-parens: ["error", "as-needed"] */
+/* eslint-env es6 */
 import {
   createSlice,
   createAsyncThunk,
   createEntityAdapter,
-  // createSelector,
+  createSelector,
 } from '@reduxjs/toolkit';
 import gon from 'gon';
 import { normalize } from 'normalizr';
@@ -15,7 +17,7 @@ const messagesAdaptor = createEntityAdapter();
 
 export const fetchMessages = createAsyncThunk(
   'messages/fetchMessages',
-  async (requestData) => {
+  async requestData => {
     const response = await api.messages.fetchMessages(requestData);
     const { data: { data } } = response;
     const normalized = normalize(data, listMessages);
@@ -23,7 +25,7 @@ export const fetchMessages = createAsyncThunk(
   },
 );
 
-const getInitialData = (data) => {
+const getInitialData = data => {
   const { messages } = data;
   const result = getNormalizedData(messages);
   return { ...result };
@@ -45,12 +47,21 @@ const messagesSlice = createSlice({
 });
 
 export const {
-  selectById: selectMessageById,
+  selectById: selectMessagesById,
   selectIds: selectMessageIds,
   selectEntities: selectMessageEntities,
   selectAll: selectAllMessages,
   selectTotal: selectTotalMessages,
-} = messagesAdaptor.getSelectors((state) => state.messages);
+} = messagesAdaptor.getSelectors(state => state.messages);
+
+export const selectMessagesByChannelId = channelId => (
+  createSelector(
+    [
+      state => selectAllMessages(state),
+    ],
+    messages => messages.filter(message => message.channelId === channelId),
+  )
+);
 
 const { actions, reducer } = messagesSlice;
 
