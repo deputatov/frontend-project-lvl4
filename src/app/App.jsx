@@ -3,10 +3,9 @@ import { useDispatch } from 'react-redux';
 
 import io from 'socket.io-client';
 
-import gon from 'gon';
+import { createMessage } from '../features/messages/messagesSlice';
 
-import { fetchChannel, fetchData } from '../features/channels/channelsSlice';
-import { createMessage, fetchMessages } from '../features/messages/messagesSlice';
+import { createChannel } from '../features/channels/channelsSlice';
 
 import getName from '../lib/getName';
 
@@ -20,11 +19,11 @@ const App = () => {
   const name = getName();
 
   const socket = io(process.env.PORT);
-  // dispatch(fetchData(gon));
-  // dispatch(fetchChannel());
-  // dispatch(fetchMessages({ params: { channelId: 1 } }));
 
   socket.on('newMessage', (data) => dispatch(createMessage(data)));
+  socket.on('newChannel', (data) => dispatch(createChannel(data)));
+  socket.on('renameChannel', (data) => console.dir(data));
+  socket.on('removeChannel', (data) => console.dir(data));
 
   return (
     <div className="App">

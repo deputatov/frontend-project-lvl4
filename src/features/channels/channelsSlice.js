@@ -5,32 +5,20 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { normalize } from 'normalizr';
-import { head, keys } from 'lodash';
 import gon from 'gon';
-import { listChannels } from '../../schemas';
 import getNormalizedData from '../../lib/getNormalizedData';
 import api from '../../api';
 
 const channelsAdaptor = createEntityAdapter();
 
-export const createChannel = createAsyncThunk(
-  'channels/createChannel',
-  async (requestData) => {
-    const response = await api.channels.createChannel(requestData);
-    const { data: { data: { attributes } } } = response;
-    return attributes;
-  },
-);
-
-export const fetchChannel = createAsyncThunk(
-  'channels/fetchChannel',
-  async () => {
-    const response = await api.channels.fetchChannels();
-    const { data: { data } } = response;
-    const normalized = normalize(data, listChannels);
-    return normalized.entities;
-  },
-);
+// export const createChannel = createAsyncThunk(
+//   'channels/createChannel',
+//   async (requestData) => {
+//     const response = await api.channels.createChannel(requestData);
+//     const { data: { data: { attributes } } } = response;
+//     return attributes;
+//   },
+// );
 
 export const updateChannel = createAsyncThunk(
   'channels/updateChannel',
@@ -66,15 +54,17 @@ const channelsSlice = createSlice({
     setCurrentChannelId(state, { payload: { id } }) {
       state.currentChannelId = id;
     },
+    createChannel(state, { payload: { data: { attributes } } }) {
+      channelsAdaptor.addOne(state, attributes);
+    },
+    updateChannel(state, { payload: { data: { attributes } } }) {
+      channelsAdaptor.upsertOne(state, attributes);
+    },
   },
   extraReducers: {
-    [createChannel.fulfilled]: (state, { payload }) => {
-      channelsAdaptor.addOne(state, payload);
-    },
-    [fetchChannel.fulfilled]: (state, { payload: { channels } }) => {
-      channelsAdaptor.upsertMany(state, channels);
-      state.currentChannelId = head(keys(channels));
-    },
+    // [createChannel.fulfilled]: (state, { payload }) => {
+    //   channelsAdaptor.addOne(state, payload);
+    // },
     [updateChannel.fulfilled]: (state, { payload }) => {
       channelsAdaptor.upsertOne(state, payload);
     },
@@ -94,6 +84,6 @@ export const {
 
 const { reducer, actions } = channelsSlice;
 
-export const { setCurrentChannelId } = actions;
+export const { setCurrentChannelId, createChannel } = actions;
 
 export default reducer;

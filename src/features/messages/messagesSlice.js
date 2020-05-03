@@ -15,15 +15,15 @@ import api from '../../services';
 
 const messagesAdaptor = createEntityAdapter();
 
-export const fetchMessages = createAsyncThunk(
-  'messages/fetchMessages',
-  async requestData => {
-    const response = await api.messages.fetchMessages(requestData);
-    const { data: { data } } = response;
-    const normalized = normalize(data, listMessages);
-    return normalized.entities;
-  },
-);
+// export const fetchMessages = createAsyncThunk(
+//   'messages/fetchMessages',
+//   async requestData => {
+//     const response = await api.messages.fetchMessages(requestData);
+//     const { data: { data } } = response;
+//     const normalized = normalize(data, listMessages);
+//     return normalized.entities;
+//   },
+// );
 
 const getInitialData = data => {
   const { messages } = data;
@@ -40,9 +40,9 @@ const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchMessages.fulfilled]: (state, { payload: { messages } }) => {
-      messagesAdaptor.upsertMany(state, messages);
-    },
+    // [fetchMessages.fulfilled]: (state, { payload: { messages } }) => {
+    //   messagesAdaptor.upsertMany(state, messages);
+    // },
   },
 });
 

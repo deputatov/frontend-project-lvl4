@@ -20,7 +20,7 @@ const ChannelsList = () => {
   const channels = useSelector(selectAllChannels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
 
-  const handleListItemClick = (id) => dispatch(setCurrentChannelId({ id }));
+  const handleListItemClick = (id) => () => dispatch(setCurrentChannelId({ id }));
 
   return (
     <>
@@ -30,7 +30,7 @@ const ChannelsList = () => {
             button
             key={id}
             selected={Number(currentChannelId) === id}
-            onClick={() => handleListItemClick(id)}
+            onClick={handleListItemClick(id)}
           >
             <ChannelListItem
               id={id}
@@ -41,12 +41,9 @@ const ChannelsList = () => {
             />
           </ListItem>
         ))}
-        <Divider />
-        <ChannelListAddItem
-          setOpenDialog={setOpenDialog}
-          setDialogData={setDialogData}
-        />
       </List>
+      <Divider />
+      <ChannelListAddItem />
       <DialogForm
         open={openDialog}
         onClose={() => setOpenDialog(false)}

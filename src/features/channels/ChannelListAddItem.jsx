@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,9 +7,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import AddCircle from '@material-ui/icons/AddCircle';
 
-const ChannelListAddItem = ({ setOpenDialog, setDialogData }) => {
+import ChannelDialogAddItem from './ChannelDialogAddItem';
+
+const ChannelListAddItem = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+
   const handleClick = () => {
-    setDialogData({ channelId: '', initialText: '', action: 'create' });
     setOpenDialog(true);
   };
 
@@ -19,8 +22,11 @@ const ChannelListAddItem = ({ setOpenDialog, setDialogData }) => {
         <ListItemIcon>
           <AddCircle />
         </ListItemIcon>
-        <ListItemText primary="Add a channel" />
+        <ListItemText
+          primary="Add a channel"
+        />
       </ListItem>
+      <ChannelDialogAddItem open={openDialog} onClose={() => setOpenDialog(false)} />
     </List>
   );
 };
