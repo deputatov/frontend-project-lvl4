@@ -4,21 +4,12 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { normalize } from 'normalizr';
+// import { normalize } from 'normalizr';
 import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
 import api from '../../api';
 
 const channelsAdaptor = createEntityAdapter();
-
-// export const createChannel = createAsyncThunk(
-//   'channels/createChannel',
-//   async (requestData) => {
-//     const response = await api.channels.createChannel(requestData);
-//     const { data: { data: { attributes } } } = response;
-//     return attributes;
-//   },
-// );
 
 export const updateChannel = createAsyncThunk(
   'channels/updateChannel',

@@ -9,19 +9,24 @@ import axios from 'axios';
 
 import routes from '../../routes';
 
-import UsernameContext from '../../ctx';
+import CTX from '../../ctx';
 
 const MessageInput = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const nickname = useContext(UsernameContext);
+  const nickname = useContext(CTX);
 
-  const onSubmit = ({ text }, { resetForm }) => {
-    const data = { data: { attributes: { text, nickname } } };
-    const url = routes.channelMessagesPath(currentChannelId);
-    return axios
-      .post(url, data)
-      .then(() => resetForm({ text: '' }))
-      .catch((err) => { throw err; });
+  const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
+    if (text) {
+      setSubmitting(true);
+      const data = { data: { attributes: { text, nickname } } };
+      const url = routes.channelMessagesPath(currentChannelId);
+      axios
+        .post(url, data)
+        .then(() => resetForm({ text: '' }))
+        .catch((err) => {
+          throw err;
+        });
+    }
   };
 
   return (
@@ -29,6 +34,7 @@ const MessageInput = () => {
       {(props) => {
         const {
           values,
+          handleBlur,
           handleSubmit,
           handleChange,
         } = props;
@@ -36,12 +42,11 @@ const MessageInput = () => {
           <Form onSubmit={handleSubmit}>
             <TextField
               autoFocus
-              value={values.text}
-              onChange={handleChange}
-              id="text"
               name="text"
               label="Text message"
-              type="text"
+              value={values.text}
+              onChange={handleChange}
+              onBlur={handleBlur}
               fullWidth
             />
           </Form>

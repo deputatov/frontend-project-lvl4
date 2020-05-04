@@ -15,14 +15,19 @@ import { Formik, Form } from 'formik';
 import routes from '../../routes';
 
 const ChannelDialogAddItem = ({ open, onClose }) => {
-  const onSubmit = ({ text }, { setSubmitting }) => {
+  const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
     setSubmitting(true);
     const data = { data: { attributes: { name: text } } };
     const url = routes.channelsPath();
-    return axios
+    axios
       .post(url, data)
-      .then(() => onClose())
-      .catch((err) => { throw err; });
+      .then(() => {
+        resetForm({ text: '' });
+        onClose();
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   return (
@@ -33,30 +38,27 @@ const ChannelDialogAddItem = ({ open, onClose }) => {
         <Formik initialValues={{ text: '' }} onSubmit={onSubmit}>
           {(props) => {
             const {
+              dirty,
               values,
-              isSubmitting,
+              handleBlur,
               handleSubmit,
               handleChange,
+              isSubmitting,
             } = props;
             return (
               <Form onSubmit={handleSubmit}>
                 <TextField
                   autoFocus
+                  name="text"
                   value={values.text}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   margin="dense"
-                  id="text"
-                  name="text"
-                  type="text"
                   fullWidth
                 />
                 <DialogActions>
                   <Button onClick={onClose}>Cancel</Button>
-                  <Button
-                    type="submit"
-                    onClick={onClose}
-                    disabled={isSubmitting}
-                  >
+                  <Button type="submit" disabled={!dirty || isSubmitting}>
                     Add
                   </Button>
                 </DialogActions>
