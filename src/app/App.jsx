@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 
 import { createMessage } from '../features/messages/messagesSlice';
 
-import { createChannel } from '../features/channels/channelsSlice';
+import { createChannel, updateChannel } from '../features/channels/channelsSlice';
 
 import getName from '../lib/getName';
 
@@ -22,7 +22,7 @@ const App = () => {
 
   socket.on('newMessage', (data) => dispatch(createMessage(data)));
   socket.on('newChannel', (data) => dispatch(createChannel(data)));
-  socket.on('renameChannel', (data) => console.dir(data));
+  socket.on('renameChannel', (data) => dispatch(updateChannel(data)));
   socket.on('removeChannel', (data) => console.dir(data));
 
   return (

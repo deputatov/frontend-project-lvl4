@@ -4,19 +4,26 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-// import { normalize } from 'normalizr';
+import axios from 'axios';
 import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
+import routes from '../../routes';
 import api from '../../api';
 
 const channelsAdaptor = createEntityAdapter();
 
-export const updateChannel = createAsyncThunk(
-  'channels/updateChannel',
-  async (requestData) => {
-    const response = await api.channels.updateChannel(requestData);
-    const { data: { data: { attributes } } } = response;
-    return attributes;
+export const renameChannel = createAsyncThunk(
+  'channels/renameChannel',
+  async (data) => {
+    const { params: { id } } = data;
+    await axios.patch(routes.channelPath(id), data);
+  },
+);
+
+export const removeChannel = createAsyncThunk(
+  'channels/removeChannel',
+  async (id) => {
+    await axios.delete(routes.channelPath(id));
   },
 );
 
@@ -51,13 +58,19 @@ const channelsSlice = createSlice({
     updateChannel(state, { payload: { data: { attributes } } }) {
       channelsAdaptor.upsertOne(state, attributes);
     },
+    deleteChannel(state, { payload: { data: { attributes } } }) {
+      channelsAdaptor.removeOne(state, attributes);
+    },
   },
   extraReducers: {
-    // [createChannel.fulfilled]: (state, { payload }) => {
-    //   channelsAdaptor.addOne(state, payload);
-    // },
-    [updateChannel.fulfilled]: (state, { payload }) => {
-      channelsAdaptor.upsertOne(state, payload);
+    [renameChannel.pending]: (state) => {
+      state.renameChannel = 'request';
+    },
+    [renameChannel.fulfilled]: (state) => {
+      state.renameChannel = 'success';
+    },
+    [renameChannel.rejected]: (state) => {
+      state.renameChannel = 'failure';
     },
     [deleteChannel.fulfilled]: (state, { payload }) => {
       channelsAdaptor.removeOne(state, payload);
@@ -75,6 +88,10 @@ export const {
 
 const { reducer, actions } = channelsSlice;
 
-export const { setCurrentChannelId, createChannel } = actions;
+export const {
+  setCurrentChannelId,
+  createChannel,
+  updateChannel,
+} = actions;
 
 export default reducer;

@@ -12,13 +12,9 @@ import ChannelDialogAddItem from './ChannelDialogAddItem';
 const ChannelListAddItem = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const handleClick = () => {
-    setOpenDialog(true);
-  };
-
   return (
     <List>
-      <ListItem button onClick={handleClick}>
+      <ListItem button onClick={() => setOpenDialog(true)}>
         <ListItemIcon>
           <AddCircle />
         </ListItemIcon>
