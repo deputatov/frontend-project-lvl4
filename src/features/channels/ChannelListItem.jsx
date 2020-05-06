@@ -8,6 +8,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import ChannelDialogRenameItem from './ChannelDialogRenameItem';
+import ChannelDialogDeleteItem from './ChannelDialogDeleteItem';
 
 const ChannelListItem = ({ id, name, removable }) => {
   const [openRenameDialog, setOpenRenameDialog] = useState(false);
@@ -18,7 +19,11 @@ const ChannelListItem = ({ id, name, removable }) => {
       <ListItemText primary={name} />
       {removable && (
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="edit" onClick={() => setOpenRenameDialog(true)}>
+          <IconButton
+            edge="end"
+            aria-label="edit"
+            onClick={() => setOpenRenameDialog(true)}
+          >
             <EditIcon />
           </IconButton>
           <IconButton
@@ -29,10 +34,16 @@ const ChannelListItem = ({ id, name, removable }) => {
             <DeleteIcon />
           </IconButton>
           <ChannelDialogRenameItem
-            open={openRenameDialog}
-            onClose={() => setOpenRenameDialog(false)}
             id={id}
             name={name}
+            open={openRenameDialog}
+            onClose={() => setOpenRenameDialog(false)}
+          />
+          <ChannelDialogDeleteItem
+            id={id}
+            name={name}
+            open={openDeleteDialog}
+            onClose={() => setOpenDeleteDialog(false)}
           />
         </ListItemSecondaryAction>
       )}

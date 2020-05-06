@@ -8,7 +8,6 @@ import axios from 'axios';
 import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
 import routes from '../../routes';
-import api from '../../api';
 
 const channelsAdaptor = createEntityAdapter();
 
@@ -24,18 +23,6 @@ export const removeChannel = createAsyncThunk(
   'channels/removeChannel',
   async (id) => {
     await axios.delete(routes.channelPath(id));
-  },
-);
-
-export const deleteChannel = createAsyncThunk(
-  'channels/deleteChannel',
-  async (requestData) => {
-    const response = await api.channels.deleteChannel(requestData);
-    if (response) {
-      const { params: { id } } = requestData;
-      return id;
-    }
-    return null;
   },
 );
 
@@ -58,8 +45,8 @@ const channelsSlice = createSlice({
     updateChannel(state, { payload: { data: { attributes } } }) {
       channelsAdaptor.upsertOne(state, attributes);
     },
-    deleteChannel(state, { payload: { data: { attributes } } }) {
-      channelsAdaptor.removeOne(state, attributes);
+    deleteChannel(state, { payload: { data: { id } } }) {
+      channelsAdaptor.removeOne(state, id);
     },
   },
   extraReducers: {
@@ -72,8 +59,14 @@ const channelsSlice = createSlice({
     [renameChannel.rejected]: (state) => {
       state.renameChannel = 'failure';
     },
-    [deleteChannel.fulfilled]: (state, { payload }) => {
-      channelsAdaptor.removeOne(state, payload);
+    [removeChannel.pending]: (state) => {
+      state.removeChannel = 'request';
+    },
+    [removeChannel.fulfilled]: (state) => {
+      state.removeChannel = 'success';
+    },
+    [removeChannel.rejected]: (state) => {
+      state.removedChannel = 'failure';
     },
   },
 });
@@ -92,6 +85,7 @@ export const {
   setCurrentChannelId,
   createChannel,
   updateChannel,
+  deleteChannel,
 } = actions;
 
 export default reducer;

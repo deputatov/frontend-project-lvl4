@@ -26,7 +26,6 @@ const ChannelDialogRenameItem = ({
     dispatch(renameChannel(data))
       .then(() => onClose());
   };
-
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Rename channel</DialogTitle>
@@ -36,6 +35,7 @@ const ChannelDialogRenameItem = ({
           {(props) => {
             const {
               dirty,
+              errors,
               values,
               handleBlur,
               handleSubmit,
@@ -45,6 +45,7 @@ const ChannelDialogRenameItem = ({
             return (
               <Form onSubmit={handleSubmit}>
                 <TextField
+                  error={errors.text}
                   autoFocus
                   name="text"
                   value={values.text}
