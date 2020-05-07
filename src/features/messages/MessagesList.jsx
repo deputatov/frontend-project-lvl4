@@ -13,10 +13,6 @@ const useStyles = makeStyles(() => ({
     display: 'flex',
     alignItems: 'center',
   },
-  chatWindow: {
-    width: '70%',
-    height: '400px',
-  },
 }));
 
 const MessagesList = () => {

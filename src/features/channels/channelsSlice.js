@@ -73,11 +73,7 @@ const channelsSlice = createSlice({
 });
 
 export const {
-  // selectById: selectChannelById,
-  // selectIds: selectChannelIds,
-  // selectEntities: selectChannelEntities,
   selectAll: selectAllChannels,
-  // selectTotal: selectTotalChannels,
 } = channelsAdaptor.getSelectors((state) => state.channels);
 
 const { reducer, actions } = channelsSlice;

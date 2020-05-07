@@ -26,16 +26,7 @@ const useStyles = makeStyles(theme => ({
   chatWindow: {
     width: '70%',
     height: '400px',
-    // padding: '20px',
     overflow: 'auto',
-  },
-  chatBox: {
-    margin: '10px',
-    width: '85%',
-    // alignItems: 'center',
-  },
-  button: {
-    width: '15%',
   },
 }));
 

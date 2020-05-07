@@ -15,6 +15,7 @@ const ChannelsList = () => {
   const channels = useSelector(selectAllChannels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const handleListItemClick = (id) => () => dispatch(setCurrentChannelId({ id }));
+
   return (
     <>
       <List>
