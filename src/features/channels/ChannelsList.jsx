@@ -17,27 +17,49 @@ const ChannelsList = () => {
   const handleListItemClick = (id) => () => dispatch(setCurrentChannelId({ id }));
 
   return (
-    <>
-      <List>
-        {channels.map(({ id, name, removable }) => (
-          <ListItem
-            button
-            key={id}
-            selected={Number(currentChannelId) === id}
-            onClick={handleListItemClick(id)}
-          >
-            <ChannelListItem
-              id={id}
-              name={name}
-              removable={removable}
-            />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <ChannelListAddItem />
-    </>
+    <ul className="nav flex-column nav-pills nav-fill">
+      {channels.map(({ id, name, removable }) => (
+        <li className="nav-item" key={id}>
+          <button type="button" className="nav-link btn btn-block">
+            {name}
+          </button>
+        </li>
+      ))}
+      {/* <li className="nav-item">
+        <button type="button" className="nav-link btn btn-block active">
+          general
+        </button>
+      </li>
+      <li className="nav-item">
+        <button type="button" className="nav-link btn btn-block">
+          random
+        </button>
+      </li> */}
+    </ul>
   );
+
+  // return (
+  //   <>
+  //     <List>
+  //       {channels.map(({ id, name, removable }) => (
+  //         <ListItem
+  //           button
+  //           key={id}
+  //           selected={Number(currentChannelId) === id}
+  //           onClick={handleListItemClick(id)}
+  //         >
+  //           <ChannelListItem
+  //             id={id}
+  //             name={name}
+  //             removable={removable}
+  //           />
+  //         </ListItem>
+  //       ))}
+  //     </List>
+  //     <Divider />
+  //     <ChannelListAddItem />
+  //   </>
+  // );
 };
 
 export default ChannelsList;
