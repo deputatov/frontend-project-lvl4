@@ -18,12 +18,12 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-  topicsWindow: {
+  channelsWindow: {
     width: '30%',
     height: '400px',
     overflow: 'auto',
   },
-  chatWindow: {
+  messagesWindow: {
     width: '70%',
     height: '400px',
     overflow: 'auto',
@@ -36,11 +36,11 @@ const Dashboard = () => {
     <div>
       <Paper className={classes.root} elevation={3}>
         <div className={classes.flex}>
-          <div className={classes.topicsWindow}>
+          <div className={classes.channelsWindow}>
             <ChannelsList />
           </div>
           <Divider orientation="vertical" variant="middle" flexItem />
-          <div className={classes.chatWindow}>
+          <div className={classes.messagesWindow}>
             <MessagesList />
           </div>
         </div>
