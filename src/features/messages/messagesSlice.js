@@ -2,28 +2,16 @@
 /* eslint-env es6 */
 import {
   createSlice,
-  createAsyncThunk,
-  createEntityAdapter,
   createSelector,
+  createEntityAdapter,
 } from '@reduxjs/toolkit';
+import { keys, pickBy } from 'lodash';
 import gon from 'gon';
-import { normalize } from 'normalizr';
-import { listMessages } from '../../schemas';
-// import routes from '../../routes';
 import getNormalizedData from '../../lib/getNormalizedData';
-import api from '../../services';
+
+import { deleteChannel } from '../channels/channelsSlice';
 
 const messagesAdaptor = createEntityAdapter();
-
-// export const fetchMessages = createAsyncThunk(
-//   'messages/fetchMessages',
-//   async requestData => {
-//     const response = await api.messages.fetchMessages(requestData);
-//     const { data: { data } } = response;
-//     const normalized = normalize(data, listMessages);
-//     return normalized.entities;
-//   },
-// );
 
 const getInitialData = data => {
   const { messages } = data;
@@ -40,18 +28,15 @@ const messagesSlice = createSlice({
     },
   },
   extraReducers: {
-    // [fetchMessages.fulfilled]: (state, { payload: { messages } }) => {
-    //   messagesAdaptor.upsertMany(state, messages);
-    // },
+    [deleteChannel]: (state, { payload: { data: { id } } }) => {
+      const deletedMessages = keys(pickBy(state.entities, { channelId: id }));
+      messagesAdaptor.removeMany(state, deletedMessages);
+    },
   },
 });
 
 export const {
-  selectById: selectMessagesById,
-  selectIds: selectMessageIds,
-  selectEntities: selectMessageEntities,
   selectAll: selectAllMessages,
-  selectTotal: selectTotalMessages,
 } = messagesAdaptor.getSelectors(state => state.messages);
 
 export const selectMessagesByChannelId = channelId => (

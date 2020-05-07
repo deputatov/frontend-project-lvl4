@@ -41,6 +41,7 @@ const channelsSlice = createSlice({
     },
     createChannel(state, { payload: { data: { attributes } } }) {
       channelsAdaptor.addOne(state, attributes);
+      state.currentChannelId = attributes.id;
     },
     updateChannel(state, { payload: { data: { attributes } } }) {
       channelsAdaptor.upsertOne(state, attributes);
@@ -72,11 +73,11 @@ const channelsSlice = createSlice({
 });
 
 export const {
-  selectById: selectChannelById,
-  selectIds: selectChannelIds,
-  selectEntities: selectChannelEntities,
+  // selectById: selectChannelById,
+  // selectIds: selectChannelIds,
+  // selectEntities: selectChannelEntities,
   selectAll: selectAllChannels,
-  selectTotal: selectTotalChannels,
+  // selectTotal: selectTotalChannels,
 } = channelsAdaptor.getSelectors((state) => state.channels);
 
 const { reducer, actions } = channelsSlice;

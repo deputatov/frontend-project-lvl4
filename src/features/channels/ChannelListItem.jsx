@@ -18,21 +18,23 @@ const ChannelListItem = ({ id, name, removable }) => {
     <div>
       <ListItemText primary={name} />
       {removable && (
-        <ListItemSecondaryAction>
-          <IconButton
-            edge="end"
-            aria-label="edit"
-            onClick={() => setOpenRenameDialog(true)}
-          >
-            <EditIcon />
-          </IconButton>
-          <IconButton
-            edge="end"
-            aria-label="delete"
-            onClick={() => setOpenDeleteDialog(true)}
-          >
-            <DeleteIcon />
-          </IconButton>
+        <>
+          <ListItemSecondaryAction>
+            <IconButton
+              edge="end"
+              aria-label="edit"
+              onClick={() => setOpenRenameDialog(true)}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="delete"
+              onClick={() => setOpenDeleteDialog(true)}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
           <ChannelDialogRenameItem
             id={id}
             name={name}
@@ -45,7 +47,7 @@ const ChannelListItem = ({ id, name, removable }) => {
             open={openDeleteDialog}
             onClose={() => setOpenDeleteDialog(false)}
           />
-        </ListItemSecondaryAction>
+        </>
       )}
     </div>
   );
