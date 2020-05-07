@@ -9,7 +9,6 @@ import Dashboard from './Dashboard';
 
 const App = () => {
   const dispatch = useDispatch();
-  const name = getName();
   const socket = io(process.env.PORT);
   socket.on('newMessage', (data) => dispatch(createMessage(data)));
   socket.on('newChannel', (data) => dispatch(createChannel(data)));
@@ -17,7 +16,7 @@ const App = () => {
   socket.on('removeChannel', (data) => dispatch(deleteChannel(data)));
   return (
     <div className="App">
-      <CTX.Provider value={name}>
+      <CTX.Provider value={{ nickname: getName() }}>
         <Dashboard />
       </CTX.Provider>
     </div>
