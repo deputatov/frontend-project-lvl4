@@ -1,5 +1,7 @@
+/* eslint arrow-parens: ["error", "as-needed"] */
+/* eslint-env es6 */
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
@@ -7,24 +9,21 @@ import FormControl from 'react-bootstrap/FormControl';
 
 import { Formik, Form } from 'formik';
 
-import routes from '../../routes';
+import { renameChannel, selectChannelById } from './channelsSlice';
 
-const ChannelListAddItem = () => {
+const ChannelListRenameItem = () => {
+  const dispatch = useDispatch();
+
   const [openDialog, setOpenDialog] = useState(false);
 
-  const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
+  const id = useSelector(state => state.channels.currentChannelId);
+
+  const { name, removable } = useSelector(state => selectChannelById(state, id));
+
+  const onSubmit = ({ text }, { setSubmitting }) => {
     setSubmitting(true);
-    const data = { data: { attributes: { name: text } } };
-    const url = routes.channelsPath();
-    axios
-      .post(url, data)
-      .then(() => {
-        resetForm({ text: '' });
-        setOpenDialog(false);
-      })
-      .catch((err) => {
-        throw err;
-      });
+    const data = { params: { id }, data: { attributes: { name: text } } };
+    dispatch(renameChannel(data)).then(() => setOpenDialog(false));
   };
 
   return (
@@ -32,9 +31,10 @@ const ChannelListAddItem = () => {
       <button
         type="button"
         className="btn btn-secondary"
+        disabled={!removable}
         onClick={() => setOpenDialog(true)}
       >
-        + Add a channel
+        Rename channel
       </button>
       <Modal
         show={openDialog}
@@ -42,10 +42,10 @@ const ChannelListAddItem = () => {
         animation={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add new channel</Modal.Title>
+          <Modal.Title>Rename channel</Modal.Title>
         </Modal.Header>
-        <Formik initialValues={{ text: '' }} onSubmit={onSubmit}>
-          {(props) => {
+        <Formik initialValues={{ text: name }} onSubmit={onSubmit}>
+          {props => {
             const {
               dirty,
               values,
@@ -70,7 +70,7 @@ const ChannelListAddItem = () => {
                   <Button variant="secondary" onClick={() => setOpenDialog(false)}>
                     Close
                   </Button>
-                  <Button variant="primary" type="submit" disabled={!dirty || isSubmitting}>
+                  <Button type="submit" variant="primary" disabled={!dirty || isSubmitting}>
                     Save Changes
                   </Button>
                 </Modal.Footer>
@@ -83,4 +83,4 @@ const ChannelListAddItem = () => {
   );
 };
 
-export default ChannelListAddItem;
+export default ChannelListRenameItem;
