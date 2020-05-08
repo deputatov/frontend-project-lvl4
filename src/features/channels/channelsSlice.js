@@ -28,16 +28,18 @@ export const removeChannel = createAsyncThunk(
 
 const getInitialData = (data) => {
   const { currentChannelId, channels } = data;
+  const currentChannelRemovable = channels[currentChannelId].removable;
   const result = getNormalizedData(channels);
-  return { ...result, currentChannelId };
+  return { ...result, currentChannelId, currentChannelRemovable };
 };
 
 const channelsSlice = createSlice({
   name: 'channels',
   initialState: channelsAdaptor.getInitialState({ ...getInitialData(gon) }),
   reducers: {
-    setCurrentChannelId(state, { payload: { id } }) {
+    setCurrentChannelIdRemovable(state, { payload: { id, removable } }) {
       state.currentChannelId = id;
+      state.currentChannelRemovable = removable;
     },
     createChannel(state, { payload: { data: { attributes } } }) {
       channelsAdaptor.addOne(state, attributes);
@@ -79,7 +81,7 @@ export const {
 const { reducer, actions } = channelsSlice;
 
 export const {
-  setCurrentChannelId,
+  setCurrentChannelIdRemovable,
   createChannel,
   updateChannel,
   deleteChannel,

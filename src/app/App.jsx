@@ -15,11 +15,9 @@ const App = () => {
   socket.on('renameChannel', (data) => dispatch(updateChannel(data)));
   socket.on('removeChannel', (data) => dispatch(deleteChannel(data)));
   return (
-    <div className="App">
-      <CTX.Provider value={{ nickname: getName() }}>
-        <Dashboard />
-      </CTX.Provider>
-    </div>
+    <CTX.Provider value={{ nickname: getName() }}>
+      <Dashboard />
+    </CTX.Provider>
   );
 };
 

@@ -1,65 +1,30 @@
 import React from 'react';
+import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import Divider from '@material-ui/core/Divider';
-
-import { selectAllChannels, setCurrentChannelId } from './channelsSlice';
-
-import ChannelListItem from './ChannelListItem';
-import ChannelListAddItem from './ChannelListAddItem';
+import { selectAllChannels, setCurrentChannelIdRemovable } from './channelsSlice';
 
 const ChannelsList = () => {
   const dispatch = useDispatch();
   const channels = useSelector(selectAllChannels);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const handleListItemClick = (id) => () => dispatch(setCurrentChannelId({ id }));
-
+  const handleListItemClick = (id, removable) => () => {
+    dispatch(setCurrentChannelIdRemovable({ id, removable }));
+  };
   return (
     <ul className="nav flex-column nav-pills nav-fill">
       {channels.map(({ id, name, removable }) => (
-        <li className="nav-item" key={id}>
-          <button type="button" className="nav-link btn btn-block">
+        <li className="nav-item mb-1" key={id}>
+          <button
+            type="button"
+            onClick={handleListItemClick(id, removable)}
+            className={cn({ [`nav-link btn btn-block ${id === currentChannelId ? 'active' : ''}`]: true })}
+          >
             {name}
           </button>
         </li>
       ))}
-      {/* <li className="nav-item">
-        <button type="button" className="nav-link btn btn-block active">
-          general
-        </button>
-      </li>
-      <li className="nav-item">
-        <button type="button" className="nav-link btn btn-block">
-          random
-        </button>
-      </li> */}
     </ul>
   );
-
-  // return (
-  //   <>
-  //     <List>
-  //       {channels.map(({ id, name, removable }) => (
-  //         <ListItem
-  //           button
-  //           key={id}
-  //           selected={Number(currentChannelId) === id}
-  //           onClick={handleListItemClick(id)}
-  //         >
-  //           <ChannelListItem
-  //             id={id}
-  //             name={name}
-  //             removable={removable}
-  //           />
-  //         </ListItem>
-  //       ))}
-  //     </List>
-  //     <Divider />
-  //     <ChannelListAddItem />
-  //   </>
-  // );
 };
 
 export default ChannelsList;
