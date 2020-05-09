@@ -1,15 +1,9 @@
 import React, { useContext } from 'react';
-
 import { useSelector } from 'react-redux';
-
 import { Formik, Form } from 'formik';
-
-import TextField from '@material-ui/core/TextField';
-
+import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
-
 import routes from '../../routes';
-
 import CTX from '../../ctx';
 
 const MessageInput = () => {
@@ -41,17 +35,19 @@ const MessageInput = () => {
           handleChange,
         } = props;
         return (
-          <Form onSubmit={handleSubmit}>
-            <TextField
-              autoFocus
-              name="text"
-              label="Text message"
-              value={values.text}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              fullWidth
-            />
-          </Form>
+          <div className="mt-auto">
+            <Form onSubmit={handleSubmit}>
+              <FormControl
+                autoFocus
+                name="text"
+                label="Text message"
+                value={values.text}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                fullWidth
+              />
+            </Form>
+          </div>
         );
       }}
     </Formik>

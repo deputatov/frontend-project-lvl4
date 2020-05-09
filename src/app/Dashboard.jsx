@@ -4,6 +4,7 @@ import ChannelsList from '../features/channels/ChannelsList';
 import ChannelListAddItem from '../features/channels/ChannelListAddItem';
 import ChannelListRenameItem from '../features/channels/ChannelListRenameItem';
 import ChannelListRemoveItem from '../features/channels/ChannelListRemoveItem';
+import MessageInput from '../features/messages/MessageInput';
 
 const Dashboard = () => (
   <div className="row h-100 pb-3">
@@ -38,16 +39,7 @@ const Dashboard = () => (
             : лол
           </div>
         </div>
-        <div className="mt-auto">
-          <form noValidate="" className="">
-            <div className="form-group">
-              <div className="input-group">
-                <input name="body" className="form-control" value="" />
-                <div className="d-block invalid-feedback">&nbsp;</div>
-              </div>
-            </div>
-          </form>
-        </div>
+        <MessageInput />
       </div>
     </div>
   </div>
