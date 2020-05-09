@@ -1,24 +1,5 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-frontend-project-lvl4
-=======
-=======
-[![Github Actions Status](https://github.com/hexlet-components/projects-frontend-l4-server/workflows/Node%20CI/badge.svg)](https://github.com/hexlet-components/projects-frontend-l4-server/actions)
+# Project "Chat (Slack)"
 
->>>>>>> [RFC] add github actions, test coverage, fix linter errors (#22)
-### Requirements
+Project [frontend-project-lvl4] https://ru.hexlet.io/professions/frontend/projects/12
 
-* [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli)
-
-### Install
-
-```sh
-$ make install
-```
-
-### Run
-
-```sh
-$ make start
-```
->>>>>>> improve frontend
+Mentor [Kirill Mokevnin](https://ru.hexlet.io/u/mokevnin)
