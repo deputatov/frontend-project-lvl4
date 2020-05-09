@@ -1,11 +1,7 @@
-/* eslint arrow-parens: ["error", "as-needed"] */
-/* eslint-env es6 */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-
 import { removeChannel, selectChannelById } from './channelsSlice';
 
 const ChannelListRemoveItem = () => {
@@ -13,9 +9,9 @@ const ChannelListRemoveItem = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const id = useSelector(state => state.channels.currentChannelId);
+  const id = useSelector((state) => state.channels.currentChannelId);
 
-  const { name, removable } = useSelector(state => selectChannelById(state, id));
+  const { name, removable } = useSelector((state) => selectChannelById(state, id));
 
   const handleRemoveChannel = () => {
     dispatch(removeChannel(id)).then(() => setOpenDialog(false));

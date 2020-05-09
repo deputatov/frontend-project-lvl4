@@ -4,6 +4,7 @@ import {
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
+import { last } from 'lodash';
 import axios from 'axios';
 import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
@@ -48,7 +49,7 @@ const channelsSlice = createSlice({
     },
     deleteChannel(state, { payload: { data: { id } } }) {
       channelsAdaptor.removeOne(state, id);
-      state.currentChannelId = id - 1;
+      state.currentChannelId = last(state.ids);
     },
   },
   extraReducers: {

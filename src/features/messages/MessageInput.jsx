@@ -44,7 +44,6 @@ const MessageInput = () => {
                 value={values.text}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                fullWidth
               />
             </Form>
           </div>

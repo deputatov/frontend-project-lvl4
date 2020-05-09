@@ -1,5 +1,4 @@
 import React from 'react';
-
 import ChannelsList from '../features/channels/ChannelsList';
 import ChannelListAddItem from '../features/channels/ChannelListAddItem';
 import ChannelListRenameItem from '../features/channels/ChannelListRenameItem';

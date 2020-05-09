@@ -1,14 +1,9 @@
-/* eslint arrow-parens: ["error", "as-needed"] */
-/* eslint-env es6 */
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
-
 import { Formik, Form } from 'formik';
-
 import { renameChannel, selectChannelById } from './channelsSlice';
 
 const ChannelListRenameItem = () => {
@@ -16,9 +11,9 @@ const ChannelListRenameItem = () => {
 
   const [openDialog, setOpenDialog] = useState(false);
 
-  const id = useSelector(state => state.channels.currentChannelId);
+  const id = useSelector((state) => state.channels.currentChannelId);
 
-  const { name, removable } = useSelector(state => selectChannelById(state, id));
+  const { name, removable } = useSelector((state) => selectChannelById(state, id));
 
   const onSubmit = ({ text }, { setSubmitting }) => {
     setSubmitting(true);
@@ -45,7 +40,7 @@ const ChannelListRenameItem = () => {
           <Modal.Title>Rename channel</Modal.Title>
         </Modal.Header>
         <Formik initialValues={{ text: name }} onSubmit={onSubmit}>
-          {props => {
+          {(props) => {
             const {
               dirty,
               values,
