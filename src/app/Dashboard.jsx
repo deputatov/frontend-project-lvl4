@@ -4,6 +4,7 @@ import ChannelsList from '../features/channels/ChannelsList';
 import ChannelListAddItem from '../features/channels/ChannelListAddItem';
 import ChannelListRenameItem from '../features/channels/ChannelListRenameItem';
 import ChannelListRemoveItem from '../features/channels/ChannelListRemoveItem';
+import MessagesList from '../features/messages/MessagesList';
 import MessageInput from '../features/messages/MessageInput';
 
 const Dashboard = () => (
@@ -21,24 +22,7 @@ const Dashboard = () => (
     </div>
     <div className="col h-100">
       <div className="d-flex flex-column h-100">
-        <div id="messages-box" className="chat-messages overflow-auto mb-3">
-          <div>
-            <b>Maurice.Wolff54</b>
-            :
-          </div>
-          <div>
-            <b>Maurice.Wolff54</b>
-            : hjj
-          </div>
-          <div>
-            <b>Maurice.Wolff54</b>
-            : tyy
-          </div>
-          <div>
-            <b>Kyla_VonRueden63</b>
-            : лол
-          </div>
-        </div>
+        <MessagesList />
         <MessageInput />
       </div>
     </div>

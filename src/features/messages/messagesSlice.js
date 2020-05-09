@@ -1,5 +1,4 @@
-/* eslint arrow-parens: ["error", "as-needed"] */
-/* eslint-env es6 */
+
 import {
   createSlice,
   createSelector,
@@ -13,7 +12,7 @@ import { deleteChannel } from '../channels/channelsSlice';
 
 const messagesAdaptor = createEntityAdapter();
 
-const getInitialData = data => {
+const getInitialData = (data) => {
   const { messages } = data;
   const result = getNormalizedData(messages);
   return { ...result };
@@ -37,14 +36,14 @@ const messagesSlice = createSlice({
 
 export const {
   selectAll: selectAllMessages,
-} = messagesAdaptor.getSelectors(state => state.messages);
+} = messagesAdaptor.getSelectors((state) => state.messages);
 
-export const selectMessagesByChannelId = channelId => (
+export const selectMessagesByChannelId = (channelId) => (
   createSelector(
     [
-      state => selectAllMessages(state),
+      (state) => selectAllMessages(state),
     ],
-    messages => messages.filter(message => message.channelId === channelId),
+    (messages) => messages.filter((message) => message.channelId === channelId),
   )
 );
 
