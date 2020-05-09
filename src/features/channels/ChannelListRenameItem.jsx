@@ -30,7 +30,7 @@ const ChannelListRenameItem = () => {
     <>
       <button
         type="button"
-        className="btn btn-secondary"
+        className="btn btn-secondary mb-2"
         disabled={!removable}
         onClick={() => setOpenDialog(true)}
       >

@@ -48,6 +48,7 @@ const channelsSlice = createSlice({
     },
     deleteChannel(state, { payload: { data: { id } } }) {
       channelsAdaptor.removeOne(state, id);
+      state.currentChannelId = id - 1;
     },
   },
   extraReducers: {
