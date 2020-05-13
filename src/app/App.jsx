@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
 import { createMessage } from '../features/messages/messagesSlice';
 import { createChannel, updateChannel, deleteChannel } from '../features/channels/channelsSlice';
-import getName from '../lib/getName';
+import getName from '../../lib/getName';
 import CTX from '../ctx';
 import Dashboard from './Dashboard';
 
