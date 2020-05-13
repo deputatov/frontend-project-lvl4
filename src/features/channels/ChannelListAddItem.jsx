@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import { Formik, Form } from 'formik';
-import routes from '../../routes/routes';
+import routes from '../../routes';
 
 const ChannelListAddItem = () => {
   const [openDialog, setOpenDialog] = useState(false);

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
-import routes from '../../routes/routes';
+import routes from '../../routes';
 import CTX from '../../ctx';
 
 const MessageInput = () => {
