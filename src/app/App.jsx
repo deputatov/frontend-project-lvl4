@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import io from 'socket.io-client';
-import { createMessage } from '../features/messages/messagesSlice';
-import { createChannel, updateChannel, deleteChannel } from '../features/channels/channelsSlice';
+import { createMessage } from '../slices/messages';
+import { createChannel, updateChannel, deleteChannel } from '../slices/channels';
 import getName from '../../lib/getName';
 import CTX from '../ctx';
 import Dashboard from './Dashboard';

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { removeChannel, selectChannelById } from './channelsSlice';
+import { removeChannel, selectChannelById } from '../../slices/channels';
 
 const ChannelListRemoveItem = () => {
   const dispatch = useDispatch();

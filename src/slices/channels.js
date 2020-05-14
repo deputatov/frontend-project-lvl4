@@ -7,8 +7,8 @@ import {
 import { last } from 'lodash';
 import axios from 'axios';
 import gon from 'gon';
-import getNormalizedData from '../../../lib/getNormalizedData';
-import routes from '../../routes';
+import getNormalizedData from '../../lib/getNormalizedData';
+import routes from '../routes';
 
 const channelsAdaptor = createEntityAdapter();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectMessagesByChannelId } from './messagesSlice';
+import { selectMessagesByChannelId } from '../../slices/messages';
 
 const MessagesList = () => {
   const channelId = useSelector((state) => state.channels.currentChannelId);

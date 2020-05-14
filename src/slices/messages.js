@@ -5,9 +5,9 @@ import {
 } from '@reduxjs/toolkit';
 import { keys, pickBy } from 'lodash';
 import gon from 'gon';
-import getNormalizedData from '../../../lib/getNormalizedData';
+import getNormalizedData from '../../lib/getNormalizedData';
 
-import { deleteChannel } from '../channels/channelsSlice';
+import { deleteChannel } from './channels';
 
 const messagesAdaptor = createEntityAdapter();
 

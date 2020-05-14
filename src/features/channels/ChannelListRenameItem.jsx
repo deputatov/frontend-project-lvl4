@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import { Formik, Form } from 'formik';
-import { renameChannel, selectChannelById } from './channelsSlice';
+import { renameChannel, selectChannelById } from '../../slices/channels';
 
 const ChannelListRenameItem = () => {
   const dispatch = useDispatch();

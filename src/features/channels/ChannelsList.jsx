@@ -1,7 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAllChannels, setCurrentChannelId } from './channelsSlice';
+import { selectAllChannels, setCurrentChannelId } from '../../slices/channels';
 
 const ChannelsList = () => {
   const dispatch = useDispatch();

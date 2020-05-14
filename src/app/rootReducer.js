@@ -1,6 +1,6 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import channelsReducer from '../features/channels/channelsSlice';
-import messagesReducer from '../features/messages/messagesSlice';
+import channelsReducer from '../slices/channels';
+import messagesReducer from '../slices/messages';
 
 const rootReducer = combineReducers({
   channels: channelsReducer,
