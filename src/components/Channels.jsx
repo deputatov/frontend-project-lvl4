@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
+
 import cn from 'classnames';
+
 import io from 'socket.io-client';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import { selectors, actions } from '../slices';
 import ChannelAddItem from './ChannelAddItem';
 import ChannelRenameItem from './ChannelRenameItem';
