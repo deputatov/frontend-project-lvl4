@@ -8,6 +8,7 @@ import reducer from './slices';
 import getName from '../lib/getName';
 
 import App from './components/App';
+
 import CTX from './ctx';
 
 export default () => {
