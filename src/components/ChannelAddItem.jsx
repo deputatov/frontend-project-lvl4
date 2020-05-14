@@ -1,24 +1,27 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import { Formik, Form } from 'formik';
-import { renameChannel, selectChannelById } from '../../slices/channels';
+import routes from '../routes';
 
-const ChannelListRenameItem = () => {
-  const dispatch = useDispatch();
-
+const ChannelListAddItem = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const id = useSelector((state) => state.channels.currentChannelId);
-
-  const { name, removable } = useSelector((state) => selectChannelById(state, id));
-
-  const onSubmit = ({ text }, { setSubmitting }) => {
+  const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
     setSubmitting(true);
-    const data = { params: { id }, data: { attributes: { name: text } } };
-    dispatch(renameChannel(data)).then(() => setOpenDialog(false));
+    const data = { data: { attributes: { name: text } } };
+    const url = routes.channelsPath();
+    axios
+      .post(url, data)
+      .then(() => {
+        resetForm({ text: '' });
+        setOpenDialog(false);
+      })
+      .catch((err) => {
+        throw err;
+      });
   };
 
   return (
@@ -26,10 +29,9 @@ const ChannelListRenameItem = () => {
       <button
         type="button"
         className="btn btn-secondary mb-2"
-        disabled={!removable}
         onClick={() => setOpenDialog(true)}
       >
-        Rename channel
+        + Add a channel
       </button>
       <Modal
         show={openDialog}
@@ -37,9 +39,9 @@ const ChannelListRenameItem = () => {
         animation={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Rename channel</Modal.Title>
+          <Modal.Title>Add new channel</Modal.Title>
         </Modal.Header>
-        <Formik initialValues={{ text: name }} onSubmit={onSubmit}>
+        <Formik initialValues={{ text: '' }} onSubmit={onSubmit}>
           {(props) => {
             const {
               dirty,
@@ -65,7 +67,7 @@ const ChannelListRenameItem = () => {
                   <Button variant="secondary" onClick={() => setOpenDialog(false)}>
                     Close
                   </Button>
-                  <Button type="submit" variant="primary" disabled={!dirty || isSubmitting}>
+                  <Button variant="primary" type="submit" disabled={!dirty || isSubmitting}>
                     Save Changes
                   </Button>
                 </Modal.Footer>
@@ -78,4 +80,4 @@ const ChannelListRenameItem = () => {
   );
 };
 
-export default ChannelListRenameItem;
+export default ChannelListAddItem;

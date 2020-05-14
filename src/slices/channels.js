@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import {
   createSlice,
+  createSelector,
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
@@ -10,7 +11,7 @@ import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
 import routes from '../routes';
 
-const channelsAdaptor = createEntityAdapter();
+const adapter = createEntityAdapter();
 
 export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
@@ -33,22 +34,22 @@ const getInitialData = (data) => {
   return { ...result, currentChannelId };
 };
 
-const channelsSlice = createSlice({
+const slice = createSlice({
   name: 'channels',
-  initialState: channelsAdaptor.getInitialState({ ...getInitialData(gon) }),
+  initialState: adapter.getInitialState({ ...getInitialData(gon) }),
   reducers: {
     setCurrentChannelId(state, { payload: { id } }) {
       state.currentChannelId = id;
     },
     createChannel(state, { payload: { data: { attributes } } }) {
-      channelsAdaptor.addOne(state, attributes);
+      adapter.addOne(state, attributes);
       state.currentChannelId = attributes.id;
     },
     updateChannel(state, { payload: { data: { attributes } } }) {
-      channelsAdaptor.upsertOne(state, attributes);
+      adapter.upsertOne(state, attributes);
     },
     deleteChannel(state, { payload: { data: { id } } }) {
-      channelsAdaptor.removeOne(state, id);
+      adapter.removeOne(state, id);
       state.currentChannelId = last(state.ids);
     },
   },
@@ -77,15 +78,11 @@ const channelsSlice = createSlice({
 export const {
   selectAll: selectAllChannels,
   selectById: selectChannelById,
-} = channelsAdaptor.getSelectors((state) => state.channels);
+} = adapter.getSelectors((state) => state.channels);
 
-const { reducer, actions } = channelsSlice;
+export const getCurrentChannelId = createSelector(
+  (state) => state.channels.currentChannelId,
+  (currentChannelId) => currentChannelId,
+);
 
-export const {
-  setCurrentChannelId,
-  createChannel,
-  updateChannel,
-  deleteChannel,
-} = actions;
-
-export default reducer;
+export const { actions, reducer: channels } = slice;

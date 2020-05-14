@@ -6,10 +6,9 @@ import {
 import { keys, pickBy } from 'lodash';
 import gon from 'gon';
 import getNormalizedData from '../../lib/getNormalizedData';
+import { actions as channelsActions } from './channels';
 
-import { deleteChannel } from './channels';
-
-const messagesAdaptor = createEntityAdapter();
+const adapter = createEntityAdapter();
 
 const getInitialData = (data) => {
   const { messages } = data;
@@ -17,37 +16,31 @@ const getInitialData = (data) => {
   return { ...result };
 };
 
-const messagesSlice = createSlice({
+const slice = createSlice({
   name: 'messages',
-  initialState: messagesAdaptor.getInitialState({ ...getInitialData(gon) }),
+  initialState: adapter.getInitialState({ ...getInitialData(gon) }),
   reducers: {
     createMessage(state, { payload: { data: { attributes } } }) {
-      messagesAdaptor.addOne(state, attributes);
+      adapter.addOne(state, attributes);
     },
   },
   extraReducers: {
-    [deleteChannel]: (state, { payload: { data: { id } } }) => {
-      const deletedMessages = keys(pickBy(state.entities, { channelId: id }));
-      messagesAdaptor.removeMany(state, deletedMessages);
+    [channelsActions.deleteChannel]: (state, { payload: { data: { id } } }) => {
+      const messages = keys(pickBy(state.entities, { channelId: id }));
+      adapter.removeMany(state, messages);
     },
   },
 });
 
-export const {
-  selectAll: selectAllMessages,
-} = messagesAdaptor.getSelectors((state) => state.messages);
+const { selectAll } = adapter.getSelectors((state) => state.messages);
 
 export const selectMessagesByChannelId = (channelId) => (
   createSelector(
     [
-      (state) => selectAllMessages(state),
+      (state) => selectAll(state),
     ],
     (messages) => messages.filter((message) => message.channelId === channelId),
   )
 );
 
-const { actions, reducer } = messagesSlice;
-
-export const { createMessage } = actions;
-
-export default reducer;
+export const { actions, reducer: messages } = slice;

@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { removeChannel, selectChannelById } from '../../slices/channels';
+import { asyncActions, selectors } from '../slices';
 
 const ChannelListRemoveItem = () => {
   const dispatch = useDispatch();
-
   const [openDialog, setOpenDialog] = useState(false);
 
-  const id = useSelector((state) => state.channels.currentChannelId);
-
-  const { name, removable } = useSelector((state) => selectChannelById(state, id));
+  const id = useSelector(selectors.getCurrentChannelId);
+  const { name, removable } = useSelector((state) => selectors.selectChannelById(state, id));
 
   const handleRemoveChannel = () => {
-    dispatch(removeChannel(id)).then(() => setOpenDialog(false));
+    dispatch(asyncActions.removeChannel(id)).then(() => setOpenDialog(false));
   };
 
   return (
