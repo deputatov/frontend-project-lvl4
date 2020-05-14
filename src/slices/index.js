@@ -11,9 +11,7 @@ import {
   renameChannel,
   removeChannel,
   actions as channelsActions,
-  selectAllChannels,
-  selectChannelById,
-  getCurrentChannelId,
+  selectors as channelsSelectors,
 } from './channels';
 
 export default combineReducers({
@@ -32,8 +30,6 @@ export const asyncActions = {
 };
 
 export const selectors = {
-  selectAllChannels,
-  selectChannelById,
-  getCurrentChannelId,
+  ...channelsSelectors,
   selectMessagesByChannelId,
 };
