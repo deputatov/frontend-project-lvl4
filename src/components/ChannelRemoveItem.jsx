@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import { asyncActions, selectors } from '../slices';
 
-const ChannelListRemoveItem = () => {
+const ChannelRemoveItem = () => {
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -47,4 +47,4 @@ const ChannelListRemoveItem = () => {
   );
 };
 
-export default ChannelListRemoveItem;
+export default ChannelRemoveItem;

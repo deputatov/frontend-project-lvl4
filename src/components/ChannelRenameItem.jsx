@@ -6,7 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import { Formik, Form } from 'formik';
 import { asyncActions, selectors } from '../slices';
 
-const ChannelListRenameItem = () => {
+const ChannelRenameItem = () => {
   const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -76,4 +76,4 @@ const ChannelListRenameItem = () => {
   );
 };
 
-export default ChannelListRenameItem;
+export default ChannelRenameItem;

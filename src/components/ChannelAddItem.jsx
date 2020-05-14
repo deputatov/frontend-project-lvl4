@@ -6,7 +6,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import { Formik, Form } from 'formik';
 import routes from '../routes';
 
-const ChannelListAddItem = () => {
+const ChannelAddItem = () => {
   const [openDialog, setOpenDialog] = useState(false);
 
   const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
@@ -80,4 +80,4 @@ const ChannelListAddItem = () => {
   );
 };
 
-export default ChannelListAddItem;
+export default ChannelAddItem;
