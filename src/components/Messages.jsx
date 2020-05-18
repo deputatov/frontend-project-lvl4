@@ -6,7 +6,7 @@ import axios from 'axios';
 import io from 'socket.io-client';
 import { actions, selectors } from '../slices';
 import routes from '../routes';
-import ctx from '../ctx';
+import Ctx from '../Ctx';
 
 const socket = io(process.env.PORT);
 
@@ -31,7 +31,7 @@ const Messages = () => {
   );
 
   const renderMessagesInput = () => {
-    const { name } = useContext(ctx);
+    const { name } = useContext(Ctx);
     const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
       if (text) {
         setSubmitting(true);

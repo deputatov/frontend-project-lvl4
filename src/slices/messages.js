@@ -4,22 +4,17 @@ import {
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { keys, pickBy } from 'lodash';
-import gon from 'gon';
-import getNormalizedData from '../../lib/getNormalizedData';
 import { actions as channelsActions } from './channels';
 
 const adapter = createEntityAdapter();
 
-const getInitialData = (data) => {
-  const { messages } = data;
-  const result = getNormalizedData(messages);
-  return { ...result };
-};
-
 const slice = createSlice({
   name: 'messages',
-  initialState: adapter.getInitialState({ ...getInitialData(gon) }),
+  initialState: adapter.getInitialState(),
   reducers: {
+    initMessagesState(state, { payload: { messages } }) {
+      adapter.addMany(state, messages);
+    },
     createMessage(state, { payload: { data: { attributes } } }) {
       adapter.addOne(state, attributes);
     },

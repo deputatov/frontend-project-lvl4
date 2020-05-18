@@ -7,8 +7,6 @@ import {
 } from '@reduxjs/toolkit';
 import { last } from 'lodash';
 import axios from 'axios';
-import gon from 'gon';
-import getNormalizedData from '../../lib/getNormalizedData';
 import routes from '../routes';
 
 const adapter = createEntityAdapter();
@@ -28,16 +26,14 @@ export const removeChannel = createAsyncThunk(
   },
 );
 
-const getInitialData = (data) => {
-  const { currentChannelId, channels } = data;
-  const result = getNormalizedData(channels);
-  return { ...result, currentChannelId };
-};
-
 const slice = createSlice({
   name: 'channels',
-  initialState: adapter.getInitialState({ ...getInitialData(gon) }),
+  initialState: adapter.getInitialState({ currentChannelId: null }),
   reducers: {
+    initChannelsState(state, { payload: { channels, currentChannelId } }) {
+      state.currentChannelId = currentChannelId;
+      adapter.addMany(state, channels);
+    },
     setCurrentChannelId(state, { payload: { id } }) {
       state.currentChannelId = id;
     },
