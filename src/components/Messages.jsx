@@ -1,13 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { Formik, Form } from 'formik';
 import FormControl from 'react-bootstrap/FormControl';
-
 import axios from 'axios';
-
 import io from 'socket.io-client';
-
 import { actions, selectors } from '../slices';
 import routes from '../routes';
 import ctx from '../ctx';
