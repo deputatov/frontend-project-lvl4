@@ -10,7 +10,7 @@ import io from 'socket.io-client';
 
 import { actions, selectors } from '../slices';
 import routes from '../routes';
-import CTX from '../ctx';
+import ctx from '../ctx';
 
 const socket = io(process.env.PORT);
 
@@ -35,7 +35,7 @@ const Messages = () => {
   );
 
   const renderMessagesInput = () => {
-    const { name } = useContext(CTX);
+    const { name } = useContext(ctx);
     const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
       if (text) {
         setSubmitting(true);

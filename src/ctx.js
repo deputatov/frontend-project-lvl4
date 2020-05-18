@@ -1,5 +1,3 @@
 import React from 'react';
 
-const CTX = React.createContext();
-
-export default CTX;
+export default React.createContext({ name: 'Guest' });

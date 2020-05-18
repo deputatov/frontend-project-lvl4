@@ -9,7 +9,7 @@ import getName from '../lib/getName';
 
 import App from './components/App';
 
-import CTX from './ctx';
+import Ctx from './ctx';
 
 export default () => {
   const store = configureStore({
@@ -18,9 +18,9 @@ export default () => {
 
   ReactDOM.render(
     <Provider store={store}>
-      <CTX.Provider value={{ name: getName() }}>
+      <Ctx.Provider value={{ name: getName() }}>
         <App />
-      </CTX.Provider>
+      </Ctx.Provider>
     </Provider>,
     document.getElementById('chat'),
   );
