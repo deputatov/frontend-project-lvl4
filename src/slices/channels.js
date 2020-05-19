@@ -30,7 +30,7 @@ const slice = createSlice({
   name: 'channels',
   initialState: adapter.getInitialState({ currentChannelId: null }),
   reducers: {
-    initChannelsState(state, { payload: { channels, currentChannelId } }) {
+    initState(state, { payload: { channels, currentChannelId } }) {
       state.currentChannelId = currentChannelId;
       adapter.addMany(state, channels);
     },

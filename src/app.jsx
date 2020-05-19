@@ -8,15 +8,12 @@ import getName from '../lib/getName';
 import App from './components/App';
 import Ctx from './Ctx';
 
-const { channels, messages, currentChannelId } = gon;
-
 export default () => {
   const store = configureStore({
     reducer,
   });
 
-  store.dispatch(actions.initChannelsState({ channels, currentChannelId }));
-  store.dispatch(actions.initMessagesState({ messages }));
+  store.dispatch(actions.initState({ ...gon }));
 
   ReactDOM.render(
     <Provider store={store}>
