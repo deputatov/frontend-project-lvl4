@@ -9,12 +9,12 @@ import getName from '../lib/getName';
 import App from './components/App';
 import Ctx from './Ctx';
 
-const socket = io(process.env.PORT);
-
 export default () => {
   const store = configureStore({
     reducer,
   });
+
+  const socket = io(process.env.PORT);
 
   store.dispatch(actions.initState({ ...gon }));
 
