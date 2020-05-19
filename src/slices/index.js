@@ -1,17 +1,13 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import {
-  messages,
+import messages, {
   actions as messagesActions,
-  selectMessagesByChannelId,
 } from './messages';
 
-import {
-  channels,
+import channels, {
   renameChannel,
   removeChannel,
   actions as channelsActions,
-  selectors as channelsSelectors,
 } from './channels';
 
 export default combineReducers({
@@ -27,9 +23,4 @@ export const actions = {
 export const asyncActions = {
   renameChannel,
   removeChannel,
-};
-
-export const selectors = {
-  ...channelsSelectors,
-  selectMessagesByChannelId,
 };

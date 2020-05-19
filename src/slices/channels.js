@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import {
   createSlice,
-  createSelector,
   createAsyncThunk,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
@@ -71,16 +70,10 @@ const slice = createSlice({
   },
 });
 
-const {
+export const {
   selectAll: selectAllChannels,
   selectById: selectChannelById,
 } = adapter.getSelectors((state) => state.channels);
 
-const getCurrentChannelId = createSelector(
-  (state) => state.channels.currentChannelId,
-  (currentChannelId) => currentChannelId,
-);
-
-export const selectors = { selectAllChannels, selectChannelById, getCurrentChannelId };
-
-export const { actions, reducer: channels } = slice;
+export const { actions } = slice;
+export default slice.reducer;

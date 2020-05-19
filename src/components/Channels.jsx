@@ -1,7 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectors, actions } from '../slices';
+import { actions } from '../slices';
+import selectors from '../selectors';
 import ChannelAddItem from './ChannelAddItem';
 import ChannelRenameItem from './ChannelRenameItem';
 import ChannelRemoveItem from './ChannelRemoveItem';

@@ -1,6 +1,5 @@
 import {
   createSlice,
-  createSelector,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
 import { filter } from 'lodash';
@@ -27,15 +26,7 @@ const slice = createSlice({
   },
 });
 
-const { selectAll } = adapter.getSelectors((state) => state.messages);
+export const { selectAll: selectAllMessages } = adapter.getSelectors((state) => state.messages);
 
-export const selectMessagesByChannelId = (channelId) => (
-  createSelector(
-    [
-      (state) => selectAll(state),
-    ],
-    (messages) => messages.filter((message) => message.channelId === channelId),
-  )
-);
-
-export const { actions, reducer: messages } = slice;
+export const { actions } = slice;
+export default slice.reducer;

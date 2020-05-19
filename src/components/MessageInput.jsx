@@ -5,7 +5,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
 import * as yup from 'yup';
 import routes from '../routes';
-import { selectors } from '../slices';
+import selectors from '../selectors';
 import Ctx from '../Ctx';
 
 const MessageInput = () => {
