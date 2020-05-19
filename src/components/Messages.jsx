@@ -1,23 +1,15 @@
-import React, { useContext, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import FormControl from 'react-bootstrap/FormControl';
 import axios from 'axios';
-import io from 'socket.io-client';
-import { actions, selectors } from '../slices';
+import { selectors } from '../slices';
 import routes from '../routes';
 import Ctx from '../Ctx';
 
-const socket = io(process.env.PORT);
-
 const Messages = () => {
-  const dispatch = useDispatch();
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
   const messages = useSelector(selectors.selectMessagesByChannelId(currentChannelId));
-
-  useEffect(() => {
-    socket.on('newMessage', (data) => dispatch(actions.createMessage(data)));
-  }, [dispatch]);
 
   const renderMessagesList = () => (
     <div id="messages-box" className="chat-messages overflow-auto mb-3">

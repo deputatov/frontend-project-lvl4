@@ -1,24 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import cn from 'classnames';
-import io from 'socket.io-client';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectors, actions } from '../slices';
 import ChannelAddItem from './ChannelAddItem';
 import ChannelRenameItem from './ChannelRenameItem';
 import ChannelRemoveItem from './ChannelRemoveItem';
 
-const socket = io(process.env.PORT);
-
 const Channels = () => {
   const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAllChannels);
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
-
-  useEffect(() => {
-    socket.on('newChannel', (data) => dispatch(actions.createChannel(data)));
-    socket.on('renameChannel', (data) => dispatch(actions.updateChannel(data)));
-    socket.on('removeChannel', (data) => dispatch(actions.deleteChannel(data)));
-  }, [dispatch]);
 
   const handleListItemClick = (id) => () => {
     dispatch(actions.setCurrentChannelId({ id }));
