@@ -27,12 +27,8 @@ export const removeChannel = createAsyncThunk(
 
 const slice = createSlice({
   name: 'channels',
-  initialState: adapter.getInitialState({ currentChannelId: null }),
+  initialState: adapter.getInitialState(),
   reducers: {
-    initState(state, { payload: { channels, currentChannelId } }) {
-      state.currentChannelId = currentChannelId;
-      adapter.addMany(state, channels);
-    },
     setCurrentChannelId(state, { payload: { id } }) {
       state.currentChannelId = id;
     },

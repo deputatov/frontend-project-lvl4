@@ -16,9 +16,6 @@ const slice = createSlice({
     },
   },
   extraReducers: {
-    [channelsActions.initState]: (state, { payload: { messages } }) => {
-      adapter.addMany(state, messages);
-    },
     [channelsActions.deleteChannel]: (state, { payload: { data: { id } } }) => {
       const messages = filter(state.entities, (o) => o.channelId !== id);
       adapter.setAll(state, messages);
