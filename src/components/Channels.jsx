@@ -1,46 +1,36 @@
 import React from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { actions } from '../slices';
-import selectors from '../selectors';
-import ChannelAddItem from './ChannelAddItem';
-import ChannelRenameItem from './ChannelRenameItem';
-import ChannelRemoveItem from './ChannelRemoveItem';
+import { actions } from '../slices/index.js';
+import selectors from '../selectors/index.js';
 
-const Channels = () => {
+const renderChannel = ({ channel, currentChannelId, setCurrentChannel }) => {
+  const btnClass = cn('nav-link btn btn-block', { active: channel.id === currentChannelId });
+  return (
+    <li className="nav-item mb-1" key={channel.id}>
+      <button type="button" className={btnClass} onClick={setCurrentChannel(channel.id)}>{channel.name}</button>
+      <button type="button" className="border-0 btn-link mr-3 p-0">rename</button>
+      <button type="button" className="border-0 btn-link p-0">remove</button>
+    </li>
+  );
+};
+
+export default ({ showModal }) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAllChannels);
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
 
-  const handleListItemClick = (id) => () => {
-    dispatch(actions.setCurrentChannelId({ id }));
-  };
+  const setCurrentChannel = (id) => () => dispatch(actions.setCurrentChannelId({ id }));
 
   return (
     <div className="col-3 border-right">
       <div className="d-flex mb-2">
         <span>Channels</span>
+        <button type="button" className="btn btn-link p-0 ml-auto" onClick={() => showModal('adding')}>+</button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">
-        {channels.map(({ id, name }) => (
-          <li className="nav-item mb-1" key={id}>
-            <button
-              type="button"
-              onClick={handleListItemClick(id)}
-              className={cn({ [`nav-link btn btn-block ${id === currentChannelId ? 'active' : ''}`]: true })}
-            >
-              {name}
-            </button>
-          </li>
-        ))}
+        {channels.map((channel) => renderChannel({ channel, currentChannelId, setCurrentChannel }))}
       </ul>
-      <div className="nav flex-column nav-pills nav-fill mt-2">
-        <ChannelAddItem />
-        <ChannelRenameItem />
-        <ChannelRemoveItem />
-      </div>
     </div>
   );
 };
-
-export default Channels;

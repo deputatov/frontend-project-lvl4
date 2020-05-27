@@ -1,7 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Formik, Form } from 'formik';
-import FormControl from 'react-bootstrap/FormControl';
+// import { Formik, Form } from 'formik';
+import { Formik } from 'formik';
+import Form from 'react-bootstrap/Form';
+// import FormControl from 'react-bootstrap/FormControl';
+import InputGroup from 'react-bootstrap/InputGroup';
 import axios from 'axios';
 import * as yup from 'yup';
 import routes from '../routes';
@@ -11,6 +14,10 @@ import Ctx from '../Ctx';
 const MessageInput = () => {
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
   const { name } = useContext(Ctx);
+  const inputRef = useRef();
+  useEffect(() => {
+    inputRef.current.focus();
+  });
   const onSubmit = ({ text }, { resetForm, setSubmitting }) => {
     setSubmitting(true);
     const data = { data: { attributes: { text, name } } };
@@ -38,15 +45,22 @@ const MessageInput = () => {
         } = props;
         return (
           <div className="mt-auto">
-            <Form onSubmit={handleSubmit}>
-              <FormControl
-                autoFocus
-                name="text"
-                label="Text message"
-                value={values.text}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+            <Form noValidate onSubmit={handleSubmit}>
+              <Form.Group>
+                <InputGroup>
+                  <Form.Control
+                    name="text"
+                    type="text"
+                    value={values.text}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    ref={inputRef}
+                  />
+                  <Form.Control.Feedback type="invalid" className="d-block">
+                    &nbsp;
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
             </Form>
           </div>
         );

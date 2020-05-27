@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import MessageInput from './MessageInput';
 import selectors from '../selectors';
 
-const Messages = () => {
+export default () => {
   const currentChannelId = useSelector(selectors.getCurrentChannelId);
   const messages = useSelector(selectors.selectMessagesByChannelId(currentChannelId));
 
@@ -23,5 +23,3 @@ const Messages = () => {
     </div>
   );
 };
-
-export default Messages;

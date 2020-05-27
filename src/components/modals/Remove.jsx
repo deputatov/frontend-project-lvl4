@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import { asyncActions } from '../slices';
-import selectors from '../selectors';
+import { asyncActions } from '../../slices';
+import selectors from '../../selectors';
 
 const ChannelRemoveItem = () => {
   const dispatch = useDispatch();
@@ -15,6 +15,8 @@ const ChannelRemoveItem = () => {
   const handleRemoveChannel = () => {
     dispatch(asyncActions.removeChannel(id)).then(() => setOpenDialog(false));
   };
+
+  const hideModal = () => setOpenDialog(false);
 
   return (
     <>
@@ -28,7 +30,7 @@ const ChannelRemoveItem = () => {
       </button>
       <Modal
         show={openDialog}
-        onHide={() => setOpenDialog(false)}
+        onHide={hideModal}
         animation={false}
       >
         <Modal.Header closeButton>
