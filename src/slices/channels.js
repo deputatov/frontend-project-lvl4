@@ -1,14 +1,25 @@
 /* eslint-disable no-param-reassign */
-import {
-  createSlice,
-  createAsyncThunk,
-  createEntityAdapter,
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import { last } from 'lodash';
 import axios from 'axios';
-import routes from '../routes';
+import routes from '../routes.js';
 
 const adapter = createEntityAdapter();
+
+export const addChannel = createAsyncThunk(
+  'channels/addChannel',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(routes.channelsPath(), data);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
 
 export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
@@ -45,24 +56,10 @@ const slice = createSlice({
     },
   },
   extraReducers: {
-    [renameChannel.pending]: (state) => {
-      state.renameChannel = 'request';
-    },
-    [renameChannel.fulfilled]: (state) => {
-      state.renameChannel = 'success';
-    },
-    [renameChannel.rejected]: (state) => {
-      state.renameChannel = 'failure';
-    },
-    [removeChannel.pending]: (state) => {
-      state.removeChannel = 'request';
-    },
-    [removeChannel.fulfilled]: (state) => {
-      state.removeChannel = 'success';
-    },
-    [removeChannel.rejected]: (state) => {
-      state.removedChannel = 'failure';
-    },
+    [renameChannel.fulfilled]: (state) => { state.renameChannel = 'success'; },
+    [renameChannel.rejected]: (state) => { state.renameChannel = 'failure'; },
+    [removeChannel.fulfilled]: (state) => { state.removeChannel = 'success'; },
+    [removeChannel.rejected]: (state) => { state.removedChannel = 'failure'; },
   },
 });
 
@@ -71,5 +68,5 @@ export const {
   selectById: selectChannelById,
 } = adapter.getSelectors((state) => state.channels);
 
-export const { actions } = slice;
+export const { actions: channelsActions } = slice;
 export default slice.reducer;

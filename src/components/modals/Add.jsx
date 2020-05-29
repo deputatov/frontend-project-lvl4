@@ -1,37 +1,30 @@
 import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { useFormik } from 'formik';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import { useFormik } from 'formik';
-import axios from 'axios';
-import routes from '../../routes.js';
+import { asyncActions } from '../../slices/index.js';
 
-const generateOnSubmit = (props) => (values, formikProps) => {
-  const { hideModal } = props;
-  const { setSubmitting } = formikProps;
-  const { name } = values;
+export default ({ hideModal }) => {
+  const dispatch = useDispatch();
 
-  setSubmitting(true);
-  const data = { data: { attributes: { name } } };
-  const url = routes.channelsPath();
-  axios
-    .post(url, data)
-    .then(() => {
+  const initialValues = { name: '' };
+
+  const onSubmit = async (values, actions) => {
+    const { addChannel } = asyncActions;
+    const data = { data: { attributes: { name: values.name } } };
+    const resultAction = await dispatch(addChannel(data));
+    if (addChannel.fulfilled.match(resultAction)) {
+      actions.setSubmitting(false);
       hideModal();
-    })
-    .catch((err) => {
-      throw err;
-    });
-};
+      return;
+    }
+    const { message } = resultAction.error;
+    actions.setErrors({ message });
+  };
 
-export default (props) => {
-  const { hideModal } = props;
-
-  const f = useFormik({
-    initialValues: { name: '' },
-    onSubmit: generateOnSubmit(props),
-    onReset: () => hideModal(),
-  });
+  const f = useFormik({ initialValues, onSubmit, onReset: () => hideModal() });
 
   const inputRef = useRef();
   useEffect(() => {
@@ -43,23 +36,33 @@ export default (props) => {
       <Modal.Header closeButton>
         <Modal.Title>Add new channel</Modal.Title>
       </Modal.Header>
-      <Form onSubmit={f.handleSubmit} onReset={f.handleReset}>
-        <Modal.Body>
-          <Form.Control
-            required
-            onChange={f.handleChange}
-            onBlur={f.handleBlur}
-            value={f.values.name}
-            name="name"
-            type="text"
-            ref={inputRef}
-          />
-        </Modal.Body>
-        <Modal.Footer>
+      <Modal.Body>
+        <Form onSubmit={f.handleSubmit} onReset={f.handleReset}>
+          <Form.Group>
+            <Form.Control
+              required
+              name="name"
+              type="text"
+              value={f.values.name}
+              onChange={f.handleChange}
+              onBlur={f.handleBlur}
+              isInvalid={!!f.errors.message}
+              disabled={f.isSubmitting}
+              ref={inputRef}
+            />
+            <Form.Control.Feedback type="invalid" className="d-block">
+              {f.errors.message}
+              &nbsp;
+            </Form.Control.Feedback>
+          </Form.Group>
           <Button variant="primary" type="submit" disabled={f.isSubmitting}>Add</Button>
           <Button variant="secondary" type="reset" disabled={f.isSubmitting}>Cancel</Button>
-        </Modal.Footer>
-      </Form>
+        </Form>
+      </Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="primary" type="submit" disabled={f.isSubmitting}>Add</Button>
+          <Button variant="secondary" type="reset" disabled={f.isSubmitting}>Cancel</Button>
+        </Modal.Footer> */}
     </Modal>
   );
 };

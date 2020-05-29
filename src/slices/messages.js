@@ -1,11 +1,26 @@
-import {
-  createSlice,
-  createEntityAdapter,
-} from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import { filter } from 'lodash';
-import { actions as channelsActions } from './channels';
+import axios from 'axios';
+import routes from '../routes.js';
+import { channelsActions } from './channels.js';
 
 const adapter = createEntityAdapter();
+
+export const addMessage = createAsyncThunk(
+  'messages/addMessage',
+  async ({ currentChannelId, data }, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(routes.channelMessagesPath(currentChannelId), data);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
+  },
+);
 
 const slice = createSlice({
   name: 'messages',
@@ -25,5 +40,5 @@ const slice = createSlice({
 
 export const { selectAll: selectAllMessages } = adapter.getSelectors((state) => state.messages);
 
-export const { actions } = slice;
+export const { actions: messagesActions } = slice;
 export default slice.reducer;
