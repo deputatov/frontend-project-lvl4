@@ -8,7 +8,7 @@ const adapter = createEntityAdapter();
 
 export const addChannel = createAsyncThunk(
   'channels/addChannel',
-  async (data, { rejectWithValue }) => {
+  async ({ data }, { rejectWithValue }) => {
     try {
       const response = await axios.post(routes.channelsPath(), data);
       return response.data;
@@ -23,16 +23,31 @@ export const addChannel = createAsyncThunk(
 
 export const renameChannel = createAsyncThunk(
   'channels/renameChannel',
-  async (data) => {
-    const { params: { id } } = data;
-    await axios.patch(routes.channelPath(id), data);
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const response = await axios.patch(routes.channelPath(id), data);
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   },
 );
 
 export const removeChannel = createAsyncThunk(
-  'channels/removeChannel',
-  async (id) => {
-    await axios.delete(routes.channelPath(id));
+  'channels/renameChannel',
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(routes.channelPath(id));
+      return response.data;
+    } catch (err) {
+      if (!err.response) {
+        throw err;
+      }
+      return rejectWithValue(err.response.data);
+    }
   },
 );
 
@@ -54,12 +69,6 @@ const slice = createSlice({
       adapter.removeOne(state, id);
       state.currentChannelId = last(state.ids);
     },
-  },
-  extraReducers: {
-    [renameChannel.fulfilled]: (state) => { state.renameChannel = 'success'; },
-    [renameChannel.rejected]: (state) => { state.renameChannel = 'failure'; },
-    [removeChannel.fulfilled]: (state) => { state.removeChannel = 'success'; },
-    [removeChannel.rejected]: (state) => { state.removedChannel = 'failure'; },
   },
 });
 

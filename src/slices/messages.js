@@ -9,9 +9,9 @@ const adapter = createEntityAdapter();
 
 export const addMessage = createAsyncThunk(
   'messages/addMessage',
-  async ({ currentChannelId, data }, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(routes.channelMessagesPath(currentChannelId), data);
+      const response = await axios.post(routes.channelMessagesPath(id), data);
       return response.data;
     } catch (err) {
       if (!err.response) {

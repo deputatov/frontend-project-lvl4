@@ -10,7 +10,7 @@ import { asyncActions } from '../slices/index.js';
 export default () => {
   const dispatch = useDispatch();
 
-  const currentChannelId = useSelector(selectors.getCurrentChannelId);
+  const id = useSelector(selectors.getCurrentChannelId);
 
   const { name } = useContext(Ctx);
 
@@ -21,7 +21,7 @@ export default () => {
   const onSubmit = async (values, actions) => {
     const { addMessage } = asyncActions;
     const data = { data: { attributes: { text: values.text, name } } };
-    const resultAction = await dispatch(addMessage({ currentChannelId, data }));
+    const resultAction = await dispatch(addMessage({ id, data }));
     if (addMessage.fulfilled.match(resultAction)) {
       actions.resetForm();
       actions.setSubmitting(false);
@@ -36,7 +36,7 @@ export default () => {
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
-  });
+  }, [null]);
 
   return (
     <div className="mt-auto">

@@ -14,9 +14,7 @@ const renderModal = ({ modalInfo, hideModal }) => {
 
 export default () => {
   const [modalInfo, setModalInfo] = useState({ type: null, channel: null });
-
   const showModal = (type, channel = null) => setModalInfo({ type, channel });
-
   const hideModal = () => setModalInfo({ type: null, channel: null });
 
   return (
