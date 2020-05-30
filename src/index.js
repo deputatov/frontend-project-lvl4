@@ -1,7 +1,7 @@
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import '../assets/application.scss';
-import run from './init';
+import run from './init.jsx';
 
 run();
 

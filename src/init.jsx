@@ -1,14 +1,14 @@
-import gon from 'gon';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import io from 'socket.io-client';
 import { zipObject } from 'lodash';
-import reducer, { actions } from './slices';
-import getName from '../lib/getName';
-import App from './components/App';
-import Ctx from './Ctx';
+import io from 'socket.io-client';
+import gon from 'gon';
+import reducer, { actions } from './slices/index.js';
+import getName from '../lib/getName.js';
+import App from './components/App.jsx';
+import Ctx from './Ctx.js';
 
 const getPreloadedState = () => {
   const { channels, currentChannelId, messages } = gon;

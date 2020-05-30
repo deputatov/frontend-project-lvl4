@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { selectAllChannels } from '../slices/channels';
-import { selectAllMessages } from '../slices/messages';
+import { selectAllChannels } from '../slices/channels.js';
+import { selectAllMessages } from '../slices/messages.js';
 
 const getCurrentChannelId = createSelector(
   (state) => state.channels.currentChannelId,
