@@ -21,7 +21,7 @@ export default () => {
     <div className="row h-100 pb-3">
       <Channels showModal={showModal} />
       <Messages />
-      { renderModal({ modalInfo, hideModal }) }
+      {renderModal({ modalInfo, hideModal })}
     </div>
   );
 };
