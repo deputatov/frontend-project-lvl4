@@ -1,17 +1,13 @@
 import React, { useContext, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import * as yup from 'yup';
 import Ctx from '../Ctx.js';
-import selectors from '../selectors/index.js';
 import { asyncActions } from '../slices/index.js';
 
-export default () => {
+export default ({ id }) => {
   const dispatch = useDispatch();
-
-  const id = useSelector(selectors.getCurrentChannelId);
-
   const { name } = useContext(Ctx);
 
   const initialValues = { text: '' };
@@ -36,7 +32,7 @@ export default () => {
   const inputRef = useRef();
   useEffect(() => {
     inputRef.current.focus();
-  }, [null]);
+  }, [id, f.values]);
 
   return (
     <div className="mt-auto">

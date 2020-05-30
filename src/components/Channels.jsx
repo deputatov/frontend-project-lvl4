@@ -4,10 +4,9 @@ import cn from 'classnames';
 import { actions } from '../slices/index.js';
 import selectors from '../selectors/index.js';
 
-export default ({ showModal }) => {
+export default ({ showModal, currentChannelId }) => {
   const dispatch = useDispatch();
   const channels = useSelector(selectors.selectAllChannels);
-  const currentChannelId = useSelector(selectors.getCurrentChannelId);
 
   const setCurrentChannel = (id) => () => dispatch(actions.setCurrentChannelId({ id }));
 

@@ -3,8 +3,7 @@ import { useSelector } from 'react-redux';
 import MessageInput from './MessageInput.jsx';
 import selectors from '../selectors/index.js';
 
-export default () => {
-  const currentChannelId = useSelector(selectors.getCurrentChannelId);
+export default ({ currentChannelId }) => {
   const messages = useSelector(selectors.selectMessagesByChannelId(currentChannelId));
 
   const renderMessage = ({ id, text, name }) => (
@@ -23,7 +22,7 @@ export default () => {
         <div id="messages-box" className="chat-messages overflow-auto mb-3">
           {messages.map(renderMessage)}
         </div>
-        <MessageInput />
+        <MessageInput id={currentChannelId} />
       </div>
     </div>
   );
