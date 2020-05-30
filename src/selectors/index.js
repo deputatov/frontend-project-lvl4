@@ -1,5 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { selectAllChannels, selectChannelById } from '../slices/channels';
+import { selectAllChannels } from '../slices/channels';
 import { selectAllMessages } from '../slices/messages';
 
 const getCurrentChannelId = createSelector(
@@ -16,9 +16,4 @@ const selectMessagesByChannelId = (channelId) => (
   )
 );
 
-export default {
-  selectAllChannels,
-  selectChannelById,
-  getCurrentChannelId,
-  selectMessagesByChannelId,
-};
+export default { selectAllChannels, getCurrentChannelId, selectMessagesByChannelId };

@@ -16,9 +16,18 @@ export default ({ showModal }) => {
     return (
       <li className="nav-item mb-1" key={channel.id}>
         <button type="button" className={btnClass} onClick={setCurrentChannel(channel.id)}>{channel.name}</button>
-        <button type="button" className="border-0 btn-link mr-3 p-0" onClick={() => showModal('renaming', channel)}>rename</button>
-        <button type="button" className="border-0 btn-link p-0" onClick={() => showModal('removing', channel)}>remove</button>
       </li>
+    );
+  };
+
+  const renderButtons = () => {
+    const channel = channels.find(({ id }) => id === currentChannelId);
+    return (
+      <>
+        <button type="button" className="btn btn-secondary mb-2" onClick={() => showModal('adding')}>+ Add a channel</button>
+        <button type="button" className="btn btn-secondary mb-2" disabled={!channel.removable} onClick={() => showModal('renaming', channel)}>Rename channel</button>
+        <button type="button" className="btn btn-secondary mb-2" disabled={!channel.removable} onClick={() => showModal('removing', channel)}>Remove channel</button>
+      </>
     );
   };
 
@@ -29,6 +38,7 @@ export default ({ showModal }) => {
         <button type="button" className="btn btn-link p-0 ml-auto" onClick={() => showModal('adding')}>+</button>
       </div>
       <ul className="nav flex-column nav-pills nav-fill">{channels.map(renderChannel)}</ul>
+      <div className="nav flex-column nav-pills nav-fill mt-2">{renderButtons()}</div>
     </div>
   );
 };
